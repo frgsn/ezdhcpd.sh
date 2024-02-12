@@ -3,7 +3,7 @@
 IP_START_RANGE=${IP_START_RANGE-'192.168.10.2'}
 IP_END_RANGE=${IP_START_RANGE-'192.168.10.254'}
 SUBNET_MASK=${SUBNET_MASK-'255.255.255.0'}
-SUBNET_MASK_CIDR=${SUBNET_MASK_CIDR-24}
+SUBNET_MASK_CIDR=${SUBNET_MASK_CIDR-'24'}
 IFACE=${IFACE-'eth0'}
 SERVER_IP=${SERVER_IP-'192.168.10.1'}
 
@@ -17,15 +17,15 @@ fi
 # check to make sure the given interface exists
 ip link | grep $IFACE >/dev/null
 if [[ $? != 0 ]]; then
-  echo 'ERROR: the given interface does not appear to exist.'
+  printf 'ERROR: the given interface "%s" does not appear to exist.' $IFACE
   exit 1
 fi
 
 
 # convenience CLI option to tear down the interface
-if [[ $1 -eq 'clean' ]]; then
+if [[ $1 = 'clean' ]]; then
   ip link set down $IFACE
-  ip addr del dev $IFACE local $SERVER_IP
+  ip addr del dev $IFACE local $SERVER_IP/$SUBNET_MASK_CIDR
   exit
 fi
 
@@ -50,7 +50,7 @@ ip link set up dev $IFACE
 
 
 # start the DHCP server
-busybox udhcpd -f -I $SERVER_IP <<EOF
+busybox udhcpd -f -I $SERVER_IP /dev/stdin <<EOF
 
 ################################################################################
 # BEGIN UDHCPD.CONF
