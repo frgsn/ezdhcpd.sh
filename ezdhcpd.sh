@@ -1,5 +1,22 @@
 #!/bin/bash
 
+
+while [[ "$1" ]]; do
+  case $1 in
+    '-i')
+      IFACE="$2"
+      shift
+      ;;
+
+    *)
+      printf 'ERROR: invalid CLI argument "%s"' $0
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+
 IP_START_RANGE=${IP_START_RANGE-'192.168.10.2'}
 IP_END_RANGE=${IP_START_RANGE-'192.168.10.254'}
 SUBNET_MASK=${SUBNET_MASK-'255.255.255.0'}
