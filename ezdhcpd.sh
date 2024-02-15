@@ -31,7 +31,7 @@ fi
 
 
 # check to make sure busybox/udhcpd is installed
-busybox udhcpd --help >/dev/null
+busybox udhcpd --help >/dev/null 2>/dev/null
 if [[ $? != 0 ]]; then
   echo "ERROR: udhcpd doesn't appear to be installed."
   exit 1
