@@ -8,6 +8,10 @@ while [[ "$1" ]]; do
       shift
       ;;
 
+    'clean')
+      do_clean=1
+      ;;
+
     *)
       printf 'ERROR: invalid CLI argument "%s"' $1
       exit 1
@@ -40,7 +44,7 @@ fi
 
 
 # convenience CLI option to tear down the interface
-if [[ $1 = 'clean' ]]; then
+if [[ "$do_clean" ]]; then
   ip link set down $IFACE
   ip addr del dev $IFACE local $SERVER_IP/$SUBNET_MASK_CIDR
   exit
