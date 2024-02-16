@@ -21,8 +21,13 @@ while [[ "$1" ]]; do
 done
 
 
+# TODO - make script smart enough to automatically pick a network
+# prefix/subnet mask if the defaults are already in use on the system
 IP_START_RANGE=${IP_START_RANGE-'192.168.10.2'}
 IP_END_RANGE=${IP_END_RANGE-'192.168.10.254'}
+# TODO - make the script smart enough to automatically populate the CIDR
+# notation from the mask and vice-versa. Right now changing the subnet mask
+# requires manually keeping both of these variables in sync
 SUBNET_MASK=${SUBNET_MASK-'255.255.255.0'}
 SUBNET_MASK_CIDR=${SUBNET_MASK_CIDR-'24'}
 IFACE=${IFACE-'eth0'}
