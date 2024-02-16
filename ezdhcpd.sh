@@ -77,9 +77,9 @@ busybox udhcpd -f -I $SERVER_IP /dev/stdin <<EOF
 # Options specified here will have the same effect as options specified at
 # /etc/udhcpd.conf
 
-start	$IP_START_RANGE
-end	$IP_END_RANGE
-interface	$IFACE
+start         $IP_START_RANGE
+end           $IP_END_RANGE
+interface     $IFACE
 option subnet $SUBNET_MASK
 
 ################################################################################
