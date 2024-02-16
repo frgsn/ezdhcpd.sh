@@ -9,7 +9,7 @@ while [[ "$1" ]]; do
       ;;
 
     *)
-      printf 'ERROR: invalid CLI argument "%s"' $0
+      printf 'ERROR: invalid CLI argument "%s"' $1
       exit 1
       ;;
   esac
