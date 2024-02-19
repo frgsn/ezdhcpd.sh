@@ -67,10 +67,14 @@ fi
 # set up the interface
 #
 # we have to do this here since udhcpd does not do it for us (even though we
-# have to specify the local address on the command line). The DHCP server will
-# still work and the remote device will get an IP address, it just won't have a
-# a way to talk back to the local machine.
-
+# have to specify the local address on the command line). If we don't do this,
+# the DHCP server will still work and the remote device will get an IP address,
+# and the DHCP server will identify itself in the DHCP packet exchange using the
+# IP address specified on the CLI. Despite this however, udhcpd makes no attempt
+# to configure the NIC being used to host the server or assign to it the IP
+# address that was specified on the command line. Thus, the remote machine/client
+# will have no way to talk back to the local machine/server because the server
+# has no IP on the throwaway network we have just created.
 ip addr add dev $IFACE local $SERVER_IP/$SUBNET_MASK_CIDR
 ip link set up dev $IFACE
 
