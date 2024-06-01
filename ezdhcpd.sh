@@ -12,6 +12,10 @@ while [[ "$1" ]]; do
       do_clean=1
       ;;
 
+    '-g')
+      set_gateway=1
+      ;;
+
     *)
       printf 'ERROR: invalid CLI argument "%s"' $1
       exit 1
@@ -64,6 +68,13 @@ if [[ $? != 0 ]]; then
 fi
 
 
+# CLI option to configure udhcpd to advertise itself to the client as the
+# default gateway
+if [[ "$set_gateway" ]]; then
+  busybox_opt_router="option router $SERVER_IP"
+fi
+
+
 # set up the interface
 #
 # we have to do this here since udhcpd does not do it for us (even though we
@@ -94,6 +105,7 @@ start         $IP_START_RANGE
 end           $IP_END_RANGE
 interface     $IFACE
 option subnet $SUBNET_MASK
+$busybox_opt_router
 
 ################################################################################
 # END UDHCPD.CONF
